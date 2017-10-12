@@ -70,8 +70,8 @@ pager.initialize(context, gridSizeX, gridSizeY, initialCenter,
         });
 ```
 
-You can either use the parameters "int initialX, int initialY" to specify the exact initial grid position (with a different initialize() or constructor method), or "boolean initialCenter" like in the example to just tell if it's gonna be the center or the origin (0,0).
-Here is an example:
+You can either use the parameters "int initialX, int initialY" to specify the exact initial grid position (with a different initialize() or constructor method), or "boolean initialCenter" like in the example above to just tell if it's gonna be the center or the origin (0,0).
+Here is an example with specified coordinates:
 
 ```
 GridViewPager pager = new GridViewPager(context, gridSizeX, gridSizeY, initialX, initialY, new GridViewPager.PageRequestCallback() {...}, null);
