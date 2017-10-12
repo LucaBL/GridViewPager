@@ -9,10 +9,10 @@ To include the library using Gradle, add the following to your root build.gradle
 
 ```
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
 }
 ```
 
@@ -20,7 +20,7 @@ And then the dependency:
 
 ```
 dependencies {
-		compile 'com.github.LucaBL:GridViewPager:v1.0'
+	compile 'com.github.LucaBL:GridViewPager:v1.0'
 }
 ```
 
