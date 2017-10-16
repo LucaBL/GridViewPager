@@ -3,6 +3,8 @@
 Scroll pages both horizontally and vertically in a solid grid structure.
 Overscroll effects in every direction.
 
+![Demo](https://user-images.githubusercontent.com/13917942/31603560-d67765fa-b260-11e7-9561-62bed4a2ef60.gif)
+
 ## Getting Started
 
 To include the library using Gradle, add the following to your root build.gradle at the end of repositories:
