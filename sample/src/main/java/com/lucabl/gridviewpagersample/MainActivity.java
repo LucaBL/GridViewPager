@@ -37,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
                             activity);
                 }
             },
+            new GridViewPager.PageCreationCallback() {
+                @Override
+                public void pageCreated(int gridPositionX, int gridPositionY) {
+                    Log.i("page", "created "+gridPositionY+" in column "+gridPositionX);
+                }
+            },
             new GridViewPager.PageSelectionCallback() {
                 @Override
                 public void pageSelected(int gridPositionX, int gridPositionY) {

@@ -1,7 +1,9 @@
 package com.lucabl.gridviewpagersample;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ public class PageView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
+//        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.large6), 0, 0, null);
         canvas.drawColor(color);
     }
 

@@ -23,6 +23,7 @@ public class GridViewPager extends ViewPager {
     private boolean nowSyncingColumns;
 //    private ViewPager horiPager;
     private PageRequestCallback pageRequestCallback;
+    private PageCreationCallback pageCreationCallback;
     private PageSelectionCallback pageSelectionCallback;
 
     public GridViewPager(Context context, AttributeSet attrs) {
@@ -31,35 +32,41 @@ public class GridViewPager extends ViewPager {
 
     public GridViewPager(Context context, int gridSizeX, int gridSizeY, boolean initialCenter,
                          PageRequestCallback pageRequestCallback,
+                         PageCreationCallback pageCreationCallback,
                          PageSelectionCallback pageSelectionCallback) {
         super(context);
         initialize(context, gridSizeX, gridSizeY, initialCenter, pageRequestCallback,
-                pageSelectionCallback);
+                pageCreationCallback, pageSelectionCallback);
     }
 
     public GridViewPager(Context context, int gridSizeX, int gridSizeY, int initialX, int initialY,
                          PageRequestCallback pageRequestCallback,
+                         PageCreationCallback pageCreationCallback,
                          PageSelectionCallback pageSelectionCallback) {
         super(context);
         initialize(context, gridSizeX, gridSizeY, initialX, initialY, pageRequestCallback,
-                pageSelectionCallback);
+                pageCreationCallback, pageSelectionCallback);
     }
 
     public void initialize(Context context, int gridSizeX, int gridSizeY, boolean initialCenter,
                            PageRequestCallback pageRequestCallback,
+                           PageCreationCallback pageCreationCallback,
                            PageSelectionCallback pageSelectionCallback) {
         initialize(context, gridSizeX, gridSizeY, (initialCenter ? gridSizeX / 2 : 0),
-                (initialCenter ? gridSizeY / 2 : 0), pageRequestCallback, pageSelectionCallback);
+                (initialCenter ? gridSizeY / 2 : 0), pageRequestCallback, pageCreationCallback,
+                pageSelectionCallback);
     }
 
     public void initialize(Context context, int gridSizeX, int gridSizeY, int initialX, int initialY,
                            PageRequestCallback pageRequestCallback,
+                           PageCreationCallback pageCreationCallback,
                            PageSelectionCallback pageSelectionCallback) {
         this.gridSizeX = gridSizeX;
         this.gridSizeY = gridSizeY;
         this.currentX = initialX;
         this.currentY = initialY;
         this.pageRequestCallback = pageRequestCallback;
+        this.pageCreationCallback = pageCreationCallback;
         this.pageSelectionCallback = pageSelectionCallback;
         this.pages = new View[gridSizeX][];
         this.columns = new VerticalViewPager[gridSizeX];
@@ -103,18 +110,33 @@ public class GridViewPager extends ViewPager {
                 pages[positionX][positionY] : null;
     }
 
-    public List<View> getAllPages() {
-        List<View> allPages = new ArrayList<>();
+    public List<View> getPagesList() {
+        List<View> pagesList = new ArrayList<>();
         View view;
 
         for(int x=0; x<gridSizeX; x++) {
             for(int y=0; y<gridSizeY; y++) {
                 view = getPage(x, y);
-                if(view!=null) allPages.add(view);
+                if(view!=null) pagesList.add(view);
             }
         }
 
-        return allPages;
+        return pagesList;
+    }
+
+    public View[][] getPagesGrid() {
+
+        View[][] pagesGrid = new View[gridSizeX][];
+
+        for (int x = 0; x < gridSizeX; x++) {
+            pagesGrid[x] = new View[gridSizeY];
+            for(int y = 0; y < gridSizeY; y++) {
+                pagesGrid[x][y] = (pages.length>x && pages[x]!=null && pages[x].length>y) ?
+                        pages[x][y] : null;
+            }
+        }
+
+        return pagesGrid;
     }
 
     private class RowPagerAdapter extends PagerAdapter {
@@ -159,6 +181,7 @@ public class GridViewPager extends ViewPager {
             View page = pages[column][position];
             if(page==null) {
                 page = pages[column][position] = pageRequestCallback.getPage(column, position);
+                pageCreationCallback.pageCreated(column, position);
             }
             parent.addView(page);
             return page;
@@ -239,6 +262,10 @@ public class GridViewPager extends ViewPager {
 
     public interface PageRequestCallback {
         View getPage(int gridPositionX, int gridPositionY);
+    }
+
+    public interface PageCreationCallback {
+        void pageCreated(int gridPositionX, int gridPositionY);
     }
 
     public interface PageSelectionCallback {
