@@ -7,6 +7,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Luca on 12/10/2017.
  */
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 public class GridViewPager extends ViewPager {
 
     private int gridSizeX, gridSizeY;
+    private int currentX, currentY;
     private View[][] pages;
     private VerticalViewPager[] columns;
     private boolean nowSyncingColumns;
@@ -53,6 +57,8 @@ public class GridViewPager extends ViewPager {
                            PageSelectionCallback pageSelectionCallback) {
         this.gridSizeX = gridSizeX;
         this.gridSizeY = gridSizeY;
+        this.currentX = initialX;
+        this.currentY = initialY;
         this.pageRequestCallback = pageRequestCallback;
         this.pageSelectionCallback = pageSelectionCallback;
         this.pages = new View[gridSizeX][];
@@ -82,6 +88,33 @@ public class GridViewPager extends ViewPager {
         setAdapter(new RowPagerAdapter());
         setOnPageChangeListener(getRowPageChangeListener(this));
         setCurrentItem(initialX, false);
+    }
+
+    public int[] getSelectedPosition() {
+        return new int[] {currentX, currentY};
+    }
+
+    public int[] getCentralPosition() {
+        return new int[] {gridSizeX / 2, gridSizeY / 2};
+    }
+
+    public View getPage(int positionX, int positionY) {
+        return (pages.length>positionX && pages[positionX]!=null && pages[positionX].length>positionY) ?
+                pages[positionX][positionY] : null;
+    }
+
+    public List<View> getAllPages() {
+        List<View> allPages = new ArrayList<>();
+        View view;
+
+        for(int x=0; x<gridSizeX; x++) {
+            for(int y=0; y<gridSizeY; y++) {
+                view = getPage(x, y);
+                if(view!=null) allPages.add(view);
+            }
+        }
+
+        return allPages;
     }
 
     private class RowPagerAdapter extends PagerAdapter {
@@ -163,9 +196,10 @@ public class GridViewPager extends ViewPager {
 
                     @Override
                     public void onPageSelected(int position) {
+                        currentX = position;
+                        currentY = columns[pager.getCurrentItem()].getCurrentItem();
                         if (pageSelectionCallback != null)
-                            pageSelectionCallback.pageSelected(position,
-                                    columns[pager.getCurrentItem()].getCurrentItem());
+                            pageSelectionCallback.pageSelected(currentX, currentY);
                     }
                 };
     }
@@ -191,8 +225,12 @@ public class GridViewPager extends ViewPager {
                                     columns[i].setCurrentItem(position, false);
                                 }
                             }
+
+                            currentX = column;
+                            currentY = position;
                             if (pageSelectionCallback != null)
-                                pageSelectionCallback.pageSelected(column, position);
+                                pageSelectionCallback.pageSelected(currentX, currentY);
+
                             nowSyncingColumns = false;
                         }
                     }
