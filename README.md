@@ -22,7 +22,7 @@ And then the dependency:
 
 ```
 dependencies {
-	compile 'com.github.LucaBL:GridViewPager:v1.3'
+	compile 'com.github.LucaBL:GridViewPager:v1.4'
 }
 ```
 
@@ -38,7 +38,7 @@ Java case:
 GridViewPager pager = new GridViewPager(context, gridSizeX, gridSizeY, initialCenter,
         new GridViewPager.PageRequestCallback() {
             @Override
-            public View getPage(int gridPositionX, int gridPositionY) {
+            public View getPage(int gridPositionX, int gridPositionY, GridViewPager gridViewPager) {
                 // Return the View for this specific grid position
             }
         },
@@ -59,7 +59,7 @@ GridViewPager pager = (GridViewPager) this.findViewById(R.id.pager);
 pager.initialize(context, gridSizeX, gridSizeY, initialCenter,
         new GridViewPager.PageRequestCallback() {
             @Override
-            public View getPage(int gridPositionX, int gridPositionY) {
+            public View getPage(int gridPositionX, int gridPositionY, GridViewPager gridViewPager) {
                 // Return the View for this specific grid position
             }
         },
@@ -97,7 +97,7 @@ protected void onCreate(Bundle savedInstanceState) {
     pager.initialize(this, gridSizeX, gridSizeY, initialCenter,
         new GridViewPager.PageRequestCallback() {
             @Override
-            public View getPage(int gridPositionX, int gridPositionY) {
+            public View getPage(int gridPositionX, int gridPositionY, GridViewPager gridViewPager) {
                 // Return the View for this specific grid position
             }
         },
