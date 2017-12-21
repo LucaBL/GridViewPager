@@ -22,7 +22,7 @@ And then the dependency:
 
 ```
 dependencies {
-	compile 'com.github.LucaBL:GridViewPager:v1.0'
+	compile 'com.github.LucaBL:GridViewPager:v1.3'
 }
 ```
 
@@ -45,7 +45,7 @@ GridViewPager pager = new GridViewPager(context, gridSizeX, gridSizeY, initialCe
         // This PageSelectionCallback can be null
         new GridViewPager.PageSelectionCallback() {
             @Override
-            public void pageSelected(int gridPositionX, int gridPositionY) {
+            public void pageSelected(int gridPositionX, int gridPositionY, GridViewPager gridViewPager) {
                 // This gets called when a page is selected, if you need it
             }
         });
@@ -66,7 +66,7 @@ pager.initialize(context, gridSizeX, gridSizeY, initialCenter,
         // This PageSelectionCallback can be null
         new GridViewPager.PageSelectionCallback() {
             @Override
-            public void pageSelected(int gridPositionX, int gridPositionY) {
+            public void pageSelected(int gridPositionX, int gridPositionY, GridViewPager gridViewPager) {
                 // This gets called when a page is selected, if you need it
             }
         });
@@ -104,7 +104,7 @@ protected void onCreate(Bundle savedInstanceState) {
         // This PageSelectionCallback can be null
         new GridViewPager.PageSelectionCallback() {
             @Override
-            public void pageSelected(int gridPositionX, int gridPositionY) {
+            public void pageSelected(int gridPositionX, int gridPositionY, GridViewPager gridViewPager) {
                 // This gets called when a page is selected, if you need it
             }
         }
