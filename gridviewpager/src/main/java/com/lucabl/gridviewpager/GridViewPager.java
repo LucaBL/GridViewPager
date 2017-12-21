@@ -206,6 +206,7 @@ public class GridViewPager extends ViewPager {
     }
 
     private ViewPager.OnPageChangeListener getRowPageChangeListener(final ViewPager pager) {
+        final GridViewPager thisF = this;
         return new ViewPager.OnPageChangeListener() {
 
                     @Override
@@ -222,12 +223,13 @@ public class GridViewPager extends ViewPager {
                         currentX = position;
                         currentY = columns[pager.getCurrentItem()].getCurrentItem();
                         if (pageSelectionCallback != null)
-                            pageSelectionCallback.pageSelected(currentX, currentY);
+                            pageSelectionCallback.pageSelected(currentX, currentY, thisF);
                     }
                 };
     }
 
     private VerticalViewPager.OnPageChangeListener getColumnPageChangeListener(final int column) {
+        final GridViewPager thisF = this;
         return new VerticalViewPager.OnPageChangeListener() {
 
                     @Override
@@ -252,7 +254,7 @@ public class GridViewPager extends ViewPager {
                             currentX = column;
                             currentY = position;
                             if (pageSelectionCallback != null)
-                                pageSelectionCallback.pageSelected(currentX, currentY);
+                                pageSelectionCallback.pageSelected(currentX, currentY, thisF);
 
                             nowSyncingColumns = false;
                         }
@@ -269,6 +271,6 @@ public class GridViewPager extends ViewPager {
     }
 
     public interface PageSelectionCallback {
-        void pageSelected(int gridPositionX, int gridPositionY);
+        void pageSelected(int gridPositionX, int gridPositionY, GridViewPager gridViewPager);
     }
 }

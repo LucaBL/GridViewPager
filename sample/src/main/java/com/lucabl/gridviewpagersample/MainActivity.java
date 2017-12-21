@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             },
             new GridViewPager.PageSelectionCallback() {
                 @Override
-                public void pageSelected(int gridPositionX, int gridPositionY) {
+                public void pageSelected(int gridPositionX, int gridPositionY, GridViewPager gridViewPager) {
                     Log.i("page", "selected "+gridPositionY+" in column "+gridPositionX);
                 }
             }
