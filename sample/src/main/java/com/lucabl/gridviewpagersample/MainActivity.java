@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         pager.initialize(this, gridSizeX, gridSizeY, initialCenter,
             new GridViewPager.PageRequestCallback() {
                 @Override
-                public View getPage(int gridPositionX, int gridPositionY) {
+                public View getPage(int gridPositionX, int gridPositionY, GridViewPager gridViewPager) {
                     return new PageView(
                             Color.parseColor("#ff"+
                                     Integer.toHexString(gridPositionX*(16/gridSizeX))+
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             },
             new GridViewPager.PageCreationCallback() {
                 @Override
-                public void pageCreated(int gridPositionX, int gridPositionY) {
+                public void pageCreated(int gridPositionX, int gridPositionY, GridViewPager gridViewPager) {
                     Log.i("page", "created "+gridPositionY+" in column "+gridPositionX);
                 }
             },

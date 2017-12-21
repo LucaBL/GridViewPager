@@ -25,6 +25,7 @@ public class GridViewPager extends ViewPager {
     private PageRequestCallback pageRequestCallback;
     private PageCreationCallback pageCreationCallback;
     private PageSelectionCallback pageSelectionCallback;
+    private GridViewPager thisGrid;
 
     public GridViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -61,6 +62,7 @@ public class GridViewPager extends ViewPager {
                            PageRequestCallback pageRequestCallback,
                            PageCreationCallback pageCreationCallback,
                            PageSelectionCallback pageSelectionCallback) {
+        this.thisGrid = this;
         this.gridSizeX = gridSizeX;
         this.gridSizeY = gridSizeY;
         this.currentX = initialX;
@@ -180,8 +182,8 @@ public class GridViewPager extends ViewPager {
         public Object instantiateItem(ViewGroup parent, int position) {
             View page = pages[column][position];
             if(page==null) {
-                page = pages[column][position] = pageRequestCallback.getPage(column, position);
-                pageCreationCallback.pageCreated(column, position);
+                page = pages[column][position] = pageRequestCallback.getPage(column, position, thisGrid);
+                pageCreationCallback.pageCreated(column, position, thisGrid);
             }
             parent.addView(page);
             return page;
@@ -263,11 +265,11 @@ public class GridViewPager extends ViewPager {
     }
 
     public interface PageRequestCallback {
-        View getPage(int gridPositionX, int gridPositionY);
+        View getPage(int gridPositionX, int gridPositionY, GridViewPager gridViewPager);
     }
 
     public interface PageCreationCallback {
-        void pageCreated(int gridPositionX, int gridPositionY);
+        void pageCreated(int gridPositionX, int gridPositionY, GridViewPager gridViewPager);
     }
 
     public interface PageSelectionCallback {
